@@ -1,0 +1,173 @@
+<robot name="QAK">
+
+    <link name="world"/>
+
+    <link name="base_link">
+       <visual>
+           <geometry>
+               <box size = "4 1 0.05"/>
+           </geometry>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+           <origin rpy="0 0 0" xyz="0 0 -0.10"/>
+       </visual>
+   </link>
+
+    <joint name="fixed" type="fixed">
+       <parent link="world"/>
+       <child link="base_link"/>
+    </joint>
+
+    <!-- Q Letter -->
+    <link name="Q_outer_circle">
+        <visual>
+            <geometry>
+                <cylinder radius="0.2" length="0.05"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <link name="Q_inner_circle">
+        <visual>
+            <geometry>
+                <cylinder radius="0.15" length="0.051"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+    </link>
+
+    <link name="Q_tail">
+        <visual>
+            <geometry>
+                <box size="0.05 0.05 0.05"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+    </link>
+
+    <joint name="Q_to_base" type="prismatic">
+        <parent link="base_link"/>
+        <child link="Q_outer_circle"/>
+        <origin xyz="-0.35 0 0"/>
+        <axis xyz = "1 0 0"/>
+        <limit lower="0" upper="1" velocity="100" effort="100"/>
+    </joint>
+
+    <joint name="Q_inner_to_outer" type="fixed">
+        <parent link="Q_outer_circle"/>
+        <child link="Q_inner_circle"/>
+        <origin xyz="0 0 0"/>
+    </joint>
+
+    <joint name="Q_tail_to_outer" type="fixed">
+        <parent link="Q_outer_circle"/>
+        <child link="Q_tail"/>
+        <origin rpy="0 0 0.5" xyz="0.15 -0.15 0"/>
+    </joint>
+
+    <!-- A Letter -->
+    <link name="A_left_leg">
+        <visual>
+            <geometry>
+                <box size="0.05 0.3 0.05"/>
+            </geometry>
+            <material name="green">
+                <color rgba="0 1 0 1"/>
+            </material>
+            <origin xyz="0 0 0" rpy="0 0 -0.5"/>
+        </visual>
+    </link>
+
+    <link name="A_right_leg">
+        <visual>
+            <geometry>
+                <box size="0.05 0.3 0.05"/>
+            </geometry>
+            <material name="green"/>
+            <origin xyz="0.12 0 0" rpy="0 0 0.5"/>
+        </visual>
+    </link>
+
+    <link name="A_cross">
+        <visual>
+            <geometry>
+                <box size="0.2 0.05 0.05"/>
+            </geometry>
+            <material name="green"/>
+             <origin xyz="0 -0.01 0"/>
+        </visual>
+    </link>
+
+    <joint name="A_to_base" type="prismatic">
+        <parent link="base_link"/>
+        <child link="A_left_leg"/>
+        <axis xyz = "1 0 0"/>
+        <limit lower="-1" upper="1" velocity="100" effort="100"/>
+    </joint>
+
+    <joint name="A_right_to_left" type="fixed">
+        <parent link="A_left_leg"/>
+        <child link="A_right_leg"/>
+    </joint>
+
+    <joint name="A_cross_to_left" type="fixed">
+        <parent link="A_left_leg"/>
+        <child link="A_cross"/>
+    </joint>
+
+    <!-- K Letter -->
+    <link name="K_vertical">
+        <visual>
+            <geometry>
+                <box size="0.05 0.3 0.05"/>
+            </geometry>
+            <material name="blue">
+                <color rgba="0 0 1 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <link name="K_upper_diagonal">
+        <visual>
+            <geometry>
+                <box size="0.05 0.2 0.05"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        
+    </link>
+
+    <link name="K_lower_diagonal">
+        <visual>
+            <geometry>
+                <box size="0.05 0.2 0.05"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+    </link>
+
+    <joint name="K_to_base" type="prismatic">
+        <parent link="base_link"/>
+        <child link="K_vertical"/>
+        <origin xyz="0.3 0 0"/>
+        <axis xyz = "1 0 0"/>
+        <limit lower="-1" upper="0" velocity="100" effort="100"/>
+    </joint>
+
+    <joint name="K_upper_to_vertical" type="fixed">
+        <parent link="K_vertical"/>
+        <child link="K_upper_diagonal"/>
+        <origin xyz="0.051 0.05 0" rpy="0 0 -0.785"/> 
+    </joint>
+
+    <joint name="K_lower_to_vertical" type="fixed">
+        <parent link="K_vertical"/>
+        <child link="K_lower_diagonal"/>
+        <origin xyz="0.051 -0.05 0" rpy="0 0 0.785"/>
+    </joint>
+
+</robot>
