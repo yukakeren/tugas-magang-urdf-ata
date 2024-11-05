@@ -1,0 +1,112 @@
+<robot name="arm">
+   <!-- World link, representing the fixed environment -->
+   <link name="world"/>
+
+   <!-- Base Link: Base of the robotic arm -->
+   <link name="base_link">
+       <visual>
+           <geometry>
+               <box size="1 4 0.1"/>
+           </geometry>
+           <material name="silver">
+               <color rgba="0.75 0.75 0.75 1"/>
+           </material>
+           <origin rpy="0 0 0" xyz="0 0 0.025"/>
+       </visual>
+   </link>
+
+   <!-- Fixed Joint: Connects the world to the base_link -->
+   <joint name="fixed" type="fixed">
+       <parent link="world"/>
+       <child link="base_link"/>
+   </joint>
+
+   <!-- Torso Link: Represents the main body of the robot arm -->
+   <link name="torso">
+       <visual>       
+           <geometry>
+               <cylinder length="0.12" radius="0.03"/>
+           </geometry>
+           <material name="blue">
+               <color rgba="0 0 1 1"/>
+           </material>
+           <origin rpy="0 0 0" xyz="0 0 0"/>
+       </visual>
+   </link>
+
+   <!-- Hip Joint: Revolute joint allowing torso to rotate around z-axis -->
+   <joint name="hip" type="prismatic">
+       <axis xyz="0 1 0"/>
+       <limit velocity="1.0" effort="30.0" upper="1.5708" lower="-1.5708"/>
+       <parent link="base_link"/>
+       <child link="torso"/>
+       <origin rpy="0 0 0" xyz="0 0 0.11"/>
+   </joint>
+
+   <!-- Upper Arm Link: The upper segment of the robotic arm -->
+   <link name="upper_arm">
+       <visual>
+           <geometry>
+               <cylinder length="0.3" radius="0.03"/>
+           </geometry>
+           <material name="red">
+                <color rgba="1 0 0 1"/>
+           </material>
+           <origin rpy="0 0 0" xyz="0 0 0.05"/>
+       </visual>
+   </link>
+
+   <!-- Shoulder Joint: Revolute joint allowing the upper arm to move along the y-axis -->
+   <joint name="shoulder" type="revolute">
+       <axis xyz="0 1 0"/>
+       <limit velocity="1.0" effort="30.0" upper="0.6981" lower="-1.5708"/>
+       <parent link="torso"/>
+       <child link="upper_arm"/>
+       <origin rpy="0 1.5708 0" xyz="0.02 0.06 0.06"/>
+   </joint>
+
+   <!-- Forearm Link: The lower segment of the robotic arm -->
+   <link name="forearm">
+       <visual>
+           <geometry>
+               <cylinder length="0.3" radius="0.03"/>
+           </geometry>
+           <material name="yellow">
+                <color rgba="1 1 0 1"/>
+           </material>
+           <origin rpy="0 0 0" xyz="0 0 0.12"/>
+       </visual>
+   </link>
+
+   <!-- Elbow Joint: Revolute joint allowing the forearm to bend along the y-axis -->
+   <joint name="elbow" type="revolute">
+       <axis xyz="0 1 0"/>
+       <limit velocity="1.0" effort="30.0" upper="1.5708" lower="-1.5708"/>
+       <parent link="upper_arm"/>
+       <child link="forearm"/>
+       <origin rpy="0 0 0" xyz="0 -0.055 0.1"/>
+   </joint>
+
+   <!-- Palm Link: Represents the end part of the robotic arm -->
+   <link name="palm">
+       <visual>
+           <geometry>
+               <cylinder length="0.1" radius="0.025"/>
+           </geometry>
+           <material name="green">
+                <color rgba="0 1 0 1"/>
+           </material>
+           <origin rpy="0 0 0" xyz="0 0 0.05"/>
+       </visual>
+   </link>
+
+   <!-- Wrist Joint: Revolute joint allowing the palm to rotate around the y-axis -->
+   <joint name="wrist" type="revolute">
+       <axis xyz="0 1 0"/>
+       <limit velocity="1.0" effort="20.0" upper="1.5708" lower="-1.5708"/>
+       <parent link="forearm"/>
+       <child link="palm"/>
+       <origin rpy="0 0 0" xyz="0 0 0.27"/>
+   </joint>
+
+</robot>
